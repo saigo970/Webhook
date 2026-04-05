@@ -1,0 +1,19 @@
+from flask import Flask, request, jsonify
+import requests
+
+app = Flask(__name__)
+
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    data = request.json
+    message = data.get('message', 'Alert!')
+    
+    bot_token = '8638565004:AAGf_nBxCT9FSBNG8DW_jZPkN2wAcQTmDC4'
+    chat_id = '@altimetradinganyone'
+    url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
+    requests.post(url, json={'chat_id': chat_id, 'text': message})
+    
+    return jsonify({'status': 'success'})
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=10000)
